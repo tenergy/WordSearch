@@ -12,14 +12,16 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import googleappliedcs.week6.wordsearch.Dictionary.BasicDictionary;
-import googleappliedcs.week6.wordsearch.Dictionary.GridContainer;
-import googleappliedcs.week6.wordsearch.Dictionary.Level;
-import googleappliedcs.week6.wordsearch.Dictionary.WordGenerator;
+import googleappliedcs.week6.wordsearch.Generator.BasicDictionary;
+import googleappliedcs.week6.wordsearch.Generator.GridContainer;
+import googleappliedcs.week6.wordsearch.Generator.Level;
+import googleappliedcs.week6.wordsearch.Generator.WordGenerator;
 
 public class MainActivity extends AppCompatActivity {
 
-    GridView gridView;
+    private GridView gridView;
+    private TextView textView;
+    private GridContainer gridContainer;
     private WordGenerator wordGenerator;
 
     static final ArrayList<Tile> tiles = new ArrayList<Tile>();
@@ -38,24 +40,24 @@ public class MainActivity extends AppCompatActivity {
         }
         wordGenerator = new WordGenerator(dictionary, Level.EASY, 7);
         startGame();
-
     }
 
     private void startGame() {
         gridView = (GridView) findViewById(R.id.gridview);
-
-        GridContainer gridContainer = wordGenerator.generateNewGrid();
+        textView = (TextView) findViewById(R.id.selectedWord);
+        gridContainer = wordGenerator.generateNewGrid();
         TileAdapter adapter = new TileAdapter(this, gridContainer.getTiles());
-        System.out.println(gridContainer.getWord());
         gridView.setAdapter(adapter);
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
+                System.out.println(position);
                 Toast.makeText(getApplicationContext(),
                         ((TextView) v).getText(), Toast.LENGTH_SHORT).show();
             }
         });
+        textView.setText(gridContainer.getWord());
     }
 }
 

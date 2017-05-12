@@ -1,4 +1,4 @@
-package googleappliedcs.week6.wordsearch.Dictionary;
+package googleappliedcs.week6.wordsearch.Generator;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -7,8 +7,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
-import googleappliedcs.week6.wordsearch.TrieNode;
 
 /**
  * Created by waiphyo on 5/11/17.

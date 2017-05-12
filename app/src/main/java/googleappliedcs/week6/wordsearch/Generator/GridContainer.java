@@ -1,4 +1,4 @@
-package googleappliedcs.week6.wordsearch.Dictionary;
+package googleappliedcs.week6.wordsearch.Generator;
 
 import java.util.List;
 
@@ -11,15 +11,13 @@ import googleappliedcs.week6.wordsearch.Tile;
 public class GridContainer {
     private String word;
     private List<Tile> tiles;
-    private int row;
-    private int column;
+    private int startingIndex;
     private boolean isHorizontal;
 
-    public GridContainer(String word, List<Tile> tiles, int row, int column, boolean isHorizontal) {
+    public GridContainer(String word, List<Tile> tiles, int startingIndex, boolean isHorizontal) {
         this.word = word;
         this.tiles = tiles;
-        this.row = row;
-        this.column = column;
+        this.startingIndex = startingIndex;
         this.isHorizontal = isHorizontal;
     }
 
@@ -35,11 +33,7 @@ public class GridContainer {
         return tiles;
     }
 
-    public int getRow() {
-        return row;
-    }
-
-    public int getColumn() {
-        return column;
+    public int getStartingIndex() {
+        return startingIndex;
     }
 }

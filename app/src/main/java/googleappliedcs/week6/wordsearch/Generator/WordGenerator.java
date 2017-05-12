@@ -1,4 +1,4 @@
-package googleappliedcs.week6.wordsearch.Dictionary;
+package googleappliedcs.week6.wordsearch.Generator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,14 +45,14 @@ public class WordGenerator {
         }
         if (BasicDictionary.RANDOM.nextBoolean()) {
             isHorizontal = false;
-            row = FastDictionary.random.nextInt(gridSize - word.length());
-            column = FastDictionary.random.nextInt(gridSize);
+            row = BasicDictionary.RANDOM.nextInt(gridSize - word.length());
+            column = BasicDictionary.RANDOM.nextInt(gridSize);
             for (Character e : word.toCharArray()) {
                 matrix[row++][column] = e;
             }
         } else {
-            row = FastDictionary.random.nextInt(gridSize);
-            column = FastDictionary.random.nextInt(gridSize - word.length());
+            row = BasicDictionary.RANDOM.nextInt(gridSize);
+            column = BasicDictionary.RANDOM.nextInt(gridSize - word.length());
             for (Character e : word.toCharArray()) {
                 matrix[row][column++] = e;
             }
@@ -69,6 +69,6 @@ public class WordGenerator {
                 }
             }
         }
-        return new GridContainer(word, tiles, row, column, isHorizontal);
+        return new GridContainer(word, tiles, (row * gridSize) + column, isHorizontal);
     }
 }
