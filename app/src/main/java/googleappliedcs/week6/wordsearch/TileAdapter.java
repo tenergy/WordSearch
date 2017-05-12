@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by kentaro on 5/11/17.
@@ -16,10 +17,10 @@ import java.util.ArrayList;
 
 public class TileAdapter extends BaseAdapter {
 
-    private ArrayList<Tile> tileArray;
+    private List<Tile> tileArray;
     private Context context;
 
-    public TileAdapter(Context context, ArrayList<Tile> tileArray){
+    public TileAdapter(Context context, List<Tile> tileArray){
         this.context = context;
         this.tileArray = tileArray;
     }
