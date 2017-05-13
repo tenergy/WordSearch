@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private WordGenerator wordGenerator;
     StringBuilder stringBuilder;
     Stack<Integer> chosenIndexes = new Stack<Integer>();
-    int score = 0;
+    int score;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,9 +44,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
-        TextView scoreView = (TextView) findViewById(R.id.scores);
-        scoreView.setText(Integer.toString(score));
 
         BasicDictionary dictionary = null;
         try {
@@ -58,8 +55,9 @@ public class MainActivity extends AppCompatActivity {
         wordGenerator = new WordGenerator(dictionary, Level.EASY, 7);
         countDownTime = GAME_TIMER;
         setupTimer(GAME_TIMER);
-        gameLogic();
+//        gameLogic();
         startGame();
+        gameLogic();
     }
 
     private void gameLogic() {
@@ -87,8 +85,11 @@ public class MainActivity extends AppCompatActivity {
                     }
                     else{
                         chosenIndexes.clear();
+                        chosenIndexes.push(position);
                         stringBuilder.setLength(0);
                         Log.i("@@@@@@@@@@@@@@@@@@@@" , "cleared string");
+                        stringBuilder.append(((TextView)v).getText().toString());
+                        Log.i("@@@@@@@@@@@@@@@@@@@@" , stringBuilder.toString());
                     }
                 }
             }
@@ -96,11 +97,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startGame() {
+
+        score = 0;
+        TextView scoreView = (TextView) findViewById(R.id.scores);
         TextView selectedWord = (TextView) findViewById(R.id.selectedWord);
         gridView = (GridView) findViewById(R.id.gridview);
 
+        scoreView.setText(Integer.toString(score));
 
-        final GridContainer gridContainer = wordGenerator.generateNewGrid();
+        gridContainer = wordGenerator.generateNewGrid();
         chosenIndexes.clear();
         stringBuilder = new StringBuilder();
 
@@ -108,12 +113,12 @@ public class MainActivity extends AppCompatActivity {
         TileAdapter adapter = new TileAdapter(this, gridContainer.getTiles());
         System.out.println(gridContainer.getWord());
         gridView.setAdapter(adapter);
-
+//        gameLogic();
 
         textView = (TextView) findViewById(R.id.selectedWord);
         timerTextView = (TextView) findViewById(R.id.times);
 
-        refreshGrid();
+//        refreshGrid();
         if (countDownTimer != null) {
             countDownTimer.cancel();
             countDownTimer.start();
@@ -126,6 +131,8 @@ public class MainActivity extends AppCompatActivity {
         gridView = (GridView) findViewById(R.id.gridview);
         gridView.setAdapter(adapter);
         textView.setText(gridContainer.getWord());
+        System.out.println(gridContainer.getWord());
+        gameLogic();
     }
 
     private void setupTimer(long timeInMS) {
@@ -142,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
             public void onFinish() {
                 timerTextView.setText("0");
                 Toast.makeText(getApplicationContext(),
-                        "The game has Ended", Toast.LENGTH_SHORT).show();
+                        "Game Over!!\nTotal Score: " + score, Toast.LENGTH_SHORT).show();
                 //TODO show result
             }
         };
