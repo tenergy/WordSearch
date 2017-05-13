@@ -84,7 +84,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:onClick="restartClick"
-                    android:text="Skip" />
+                    android:text="Restart" />
             </LinearLayout>
 
             <LinearLayout
@@ -93,12 +93,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <TextView
-                    android:text="Time"
-                    android:textAlignment="center"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content" />
+
 
                 <TextView
                     android:id="@+id/times"
@@ -107,12 +102,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content" />
 
-                <TextView
-                    android:text="Score"
-                    android:textAlignment="center"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content" />
+
 
                 <TextView
                     android:id="@+id/scores"

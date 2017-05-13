@@ -68,7 +68,6 @@ public class MainActivity extends AppCompatActivity {
 
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
-
                 //when the user select the first character, store that character in a variable "i" (so that you can check whether the user's next move
                 // is a valid selection, and you add the to the string builder
                 if(stringBuilder.length() == 0 ){
@@ -164,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
             //if the string builder == selectedWord, then increment the score, and call start game
             if(stringBuilder.toString().equals(selectedWord)){
                 incrementScore();
-                startGame();
+                refreshGrid();
             }
             //if it is not equal to the selectedWord, then clear the string builder
             else{
