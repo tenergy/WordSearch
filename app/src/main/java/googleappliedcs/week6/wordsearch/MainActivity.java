@@ -185,13 +185,10 @@ public class MainActivity extends AppCompatActivity {
             //if it is not equal to the selectedWord, then clear the string builder
             else{
                 stringBuilder.setLength(0);
+                uncolorTheChosenOnes();
                 Log.i("@@@@@@@@@@@@@@@@@@@@" , "cleared string");
 
             }
-        }
-        else if(stringBuilder.length() > selectedWord.length()){
-            stringBuilder.setLength(0);
-            Log.i("@@@@@@@@@@@@@@@@@@@@" , "cleared string");
         }
     }
 
