@@ -25,8 +25,9 @@ import googleappliedcs.week6.wordsearch.Generator.WordGenerator;
 public class MainActivity extends AppCompatActivity {
 
     public static final long GAME_TIMER = 50000L;
-    private TextView textView;
     private TextView timerTextView;
+    private TextView scoreView;
+    private TextView selectedWord;
     private GridContainer gridContainer;
     private Long countDownTime;
     private static final int GRAN_TIME = 50;
@@ -55,13 +56,24 @@ public class MainActivity extends AppCompatActivity {
         wordGenerator = new WordGenerator(dictionary, Level.EASY, 7);
         countDownTime = GAME_TIMER;
         setupTimer(GAME_TIMER);
-//        gameLogic();
+        gridView = (GridView) findViewById(R.id.gridview);
+        scoreView = (TextView) findViewById(R.id.scores);
+        selectedWord = (TextView) findViewById(R.id.selectedWord);
+        timerTextView = (TextView) findViewById(R.id.times);
         startGame();
-        gameLogic();
+    }
+
+    private void startGame() {
+        score = 0;
+        scoreView.setText(Integer.toString(score));
+        refreshGrid();
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+            countDownTimer.start();
+        }
     }
 
     private void gameLogic() {
-        gridView = (GridView) findViewById(R.id.gridview);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             public void onItemClick(AdapterView<?> parent, View v,
@@ -96,42 +108,14 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void startGame() {
-
-        score = 0;
-        TextView scoreView = (TextView) findViewById(R.id.scores);
-        TextView selectedWord = (TextView) findViewById(R.id.selectedWord);
-        gridView = (GridView) findViewById(R.id.gridview);
-
-        scoreView.setText(Integer.toString(score));
-
+    private void refreshGrid() {
         gridContainer = wordGenerator.generateNewGrid();
         chosenIndexes.clear();
         stringBuilder = new StringBuilder();
 
         selectedWord.setText(gridContainer.getWord());
-        TileAdapter adapter = new TileAdapter(this, gridContainer.getTiles());
         System.out.println(gridContainer.getWord());
-        gridView.setAdapter(adapter);
-//        gameLogic();
-
-        textView = (TextView) findViewById(R.id.selectedWord);
-        timerTextView = (TextView) findViewById(R.id.times);
-
-//        refreshGrid();
-        if (countDownTimer != null) {
-            countDownTimer.cancel();
-            countDownTimer.start();
-        }
-    }
-
-    private void refreshGrid() {
-        gridContainer = wordGenerator.generateNewGrid();
-        TileAdapter adapter = new TileAdapter(this, gridContainer.getTiles());
-        gridView = (GridView) findViewById(R.id.gridview);
-        gridView.setAdapter(adapter);
-        textView.setText(gridContainer.getWord());
-        System.out.println(gridContainer.getWord());
+        gridView.setAdapter(new TileAdapter(this, gridContainer.getTiles()));
         gameLogic();
     }
 
@@ -150,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
                 timerTextView.setText("0");
                 Toast.makeText(getApplicationContext(),
                         "Game Over!!\nTotal Score: " + score, Toast.LENGTH_SHORT).show();
-                //TODO show result
+                restartClick(null);
             }
         };
     }
@@ -192,7 +176,6 @@ public class MainActivity extends AppCompatActivity {
         scoreView.setText(Integer.toString(score));
 
     }
-
 
     // check if the user is allowed to choose the letter that they selected.
     // assume stringBuilder.length() > 0 when this method is called
