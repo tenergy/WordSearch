@@ -26,12 +26,14 @@
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:text="SELECTED WORD"
                 android:id="@+id/selectedWord"
-                android:layout_weight="1"
-                android:textAlignment="center"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="SELECTED WORD"
+                android:textAlignment="center"
+                android:textColor="@android:color/holo_blue_bright"
+                android:textSize="24sp" />
 
         </LinearLayout>
 
@@ -43,15 +45,17 @@
 
             <GridView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/gridview"
-                android:layout_margin="5dp"
-                android:numColumns="7"
-                android:layout_gravity="center"
-                android:gravity="right"
-                android:paddingLeft="8dp"
-                android:stretchMode="columnWidth"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_centerInParent="true" >
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:layout_margin="5dp"
+                android:gravity="right"
+                android:minHeight="50dp"
+                android:minWidth="300dp"
+                android:numColumns="7"
+                android:stretchMode="columnWidth">
+
             </GridView>
 
         </RelativeLayout>
@@ -93,7 +97,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-
+                <TextView
+                    android:text="Time"
+                    android:textAlignment="viewStart"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content" />
 
                 <TextView
                     android:id="@+id/times"
@@ -102,6 +111,12 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content" />
 
+                <TextView
+                    android:text="Score"
+                    android:textAlignment="viewStart"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content" />
 
 
                 <TextView
