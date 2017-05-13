@@ -2,6 +2,8 @@ package googleappliedcs.week6.wordsearch;
 
 import android.content.pm.ActivityInfo;
 import android.content.res.AssetManager;
+import android.graphics.Color;
+import android.os.CountDownTimer;
 import android.content.res.Configuration;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,21 +17,26 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.util.Stack;
 
-import googleappliedcs.week6.wordsearch.Dictionary.BasicDictionary;
-import googleappliedcs.week6.wordsearch.Dictionary.GridContainer;
-import googleappliedcs.week6.wordsearch.Dictionary.Level;
-import googleappliedcs.week6.wordsearch.Dictionary.WordGenerator;
+import googleappliedcs.week6.wordsearch.Generator.BasicDictionary;
+import googleappliedcs.week6.wordsearch.Generator.GridContainer;
+import googleappliedcs.week6.wordsearch.Generator.Level;
+import googleappliedcs.week6.wordsearch.Generator.WordGenerator;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final long GAME_TIMER = 50000L;
+    private TextView textView;
+    private TextView timerTextView;
+    private GridContainer gridContainer;
+    private Long countDownTime;
+    private static final int GRAN_TIME = 50;
+    private CountDownTimer countDownTimer;
     final int GRID_SIZE = 7;
     GridView gridView;
     private WordGenerator wordGenerator;
     StringBuilder stringBuilder;
     Stack<Integer> chosenIndexes = new Stack<Integer>();
     int score = 0;
-
-//    static final ArrayList<Tile> tiles = new ArrayList<Tile>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,30 +56,18 @@ public class MainActivity extends AppCompatActivity {
             toast.show();
         }
         wordGenerator = new WordGenerator(dictionary, Level.EASY, 7);
+        countDownTime = GAME_TIMER;
+        setupTimer(GAME_TIMER);
+        gameLogic();
         startGame();
-
     }
 
-    private void startGame() {
-
-        TextView selectedWord = (TextView) findViewById(R.id.selectedWord);
+    private void gameLogic() {
         gridView = (GridView) findViewById(R.id.gridview);
-
-
-        final GridContainer gridContainer = wordGenerator.generateNewGrid();
-        chosenIndexes.clear();
-        stringBuilder = new StringBuilder();
-
-        selectedWord.setText(gridContainer.getWord());
-        TileAdapter adapter = new TileAdapter(this, gridContainer.getTiles());
-        System.out.println(gridContainer.getWord());
-        gridView.setAdapter(adapter);
-
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
-
                 //when the user select the first character, store that character in a variable "i" (so that you can check whether the user's next move
                 // is a valid selection, and you add the to the string builder
                 if(stringBuilder.length() == 0 ){
@@ -96,9 +91,69 @@ public class MainActivity extends AppCompatActivity {
                         Log.i("@@@@@@@@@@@@@@@@@@@@" , "cleared string");
                     }
                 }
-
             }
         });
+    }
+
+    private void startGame() {
+        TextView selectedWord = (TextView) findViewById(R.id.selectedWord);
+        gridView = (GridView) findViewById(R.id.gridview);
+
+
+        final GridContainer gridContainer = wordGenerator.generateNewGrid();
+        chosenIndexes.clear();
+        stringBuilder = new StringBuilder();
+
+        selectedWord.setText(gridContainer.getWord());
+        TileAdapter adapter = new TileAdapter(this, gridContainer.getTiles());
+        System.out.println(gridContainer.getWord());
+        gridView.setAdapter(adapter);
+
+
+        textView = (TextView) findViewById(R.id.selectedWord);
+        timerTextView = (TextView) findViewById(R.id.times);
+
+        refreshGrid();
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+            countDownTimer.start();
+        }
+    }
+
+    private void refreshGrid() {
+        gridContainer = wordGenerator.generateNewGrid();
+        TileAdapter adapter = new TileAdapter(this, gridContainer.getTiles());
+        gridView = (GridView) findViewById(R.id.gridview);
+        gridView.setAdapter(adapter);
+        textView.setText(gridContainer.getWord());
+    }
+
+    private void setupTimer(long timeInMS) {
+        countDownTimer = new CountDownTimer(timeInMS, GRAN_TIME) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                countDownTime = millisUntilFinished;
+                Long remainingTimeInSecond = countDownTime / 1000 + 1;
+                timerTextView.setText(remainingTimeInSecond.toString());
+                timerTextView.setTextColor(remainingTimeInSecond <= 10 ? Color.RED : Color.BLACK);
+            }
+
+            @Override
+            public void onFinish() {
+                timerTextView.setText("0");
+                Toast.makeText(getApplicationContext(),
+                        "The game has Ended", Toast.LENGTH_SHORT).show();
+                //TODO show result
+            }
+        };
+    }
+
+    protected void skipClick(View view) {
+        refreshGrid();
+    }
+
+    protected void restartClick(View view) {
+        startGame();
     }
 
     private void isCorrect(String selectedWord){
@@ -108,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
             //if the string builder == selectedWord, then increment the score, and call start game
             if(stringBuilder.toString().equals(selectedWord)){
                 incrementScore();
-                startGame();
+                refreshGrid();
             }
             //if it is not equal to the selectedWord, then clear the string builder
             else{

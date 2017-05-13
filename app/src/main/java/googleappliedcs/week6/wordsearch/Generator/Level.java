@@ -1,4 +1,4 @@
-package googleappliedcs.week6.wordsearch.Dictionary;
+package googleappliedcs.week6.wordsearch.Generator;
 
 /**
  * Created by waiphyo on 5/11/17.
