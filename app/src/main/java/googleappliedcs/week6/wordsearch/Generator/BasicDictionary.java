@@ -37,7 +37,9 @@ public class BasicDictionary {
         String line = null;
         while((line = in.readLine()) != null) {
             String word = line.trim();
-            if (word.length() < 6) {
+            if (word.length() < 4) {
+                //throw
+            } else if (word.length() < 6) {
                 easyWords.add(word);
             } else if (word.length() < 9) {
                 normalWords.add(word);
