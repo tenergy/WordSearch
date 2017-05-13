@@ -48,6 +48,8 @@ public class TileAdapter extends BaseAdapter {
         TextView textView = new TextView(context);
         textView.setText(tileArray.get(position).toString());
         textView.setGravity(Gravity.CENTER);
+        textView.setHeight(140);
+        textView.setTextSize(20);
         return textView;
     }
 }
