@@ -95,16 +95,28 @@
 
                 <TextView
                     android:text="Time"
-                    android:id="@+id/time"
                     android:textAlignment="center"
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content" />
 
                 <TextView
+                    android:id="@+id/times"
+                    android:textAlignment="viewStart"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content" />
+
+                <TextView
                     android:text="Score"
-                    android:id="@+id/score"
                     android:textAlignment="center"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/scores"
+                    android:textAlignment="viewStart"
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content" />
