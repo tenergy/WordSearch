@@ -3,6 +3,7 @@ package googleappliedcs.week6.wordsearch;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -46,6 +47,7 @@ public class TileAdapter extends BaseAdapter {
 
         TextView textView = new TextView(context);
         textView.setText(tileArray.get(position).toString());
+        textView.setGravity(Gravity.CENTER);
         return textView;
     }
 }

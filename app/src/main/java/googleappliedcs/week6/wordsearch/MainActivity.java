@@ -5,6 +5,7 @@ import android.content.res.AssetManager;
 import android.graphics.Color;
 import android.os.CountDownTimer;
 import android.content.res.Configuration;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     Stack<Integer> chosenIndexes = new Stack<Integer>();
 //    Stack<Tile>
     int score;
+    private Handler timerHandler = new Handler();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -153,7 +155,12 @@ public class MainActivity extends AppCompatActivity {
                 timerTextView.setText("0");
                 Toast.makeText(getApplicationContext(),
                         "Game Over!!\nTotal Score: " + score, Toast.LENGTH_SHORT).show();
-                restartClick(null);
+                timerHandler.postDelayed(new Runnable() {
+                    public void run() {
+                        restartClick(null);
+                    }
+                }, 2000);
+
             }
         };
     }
