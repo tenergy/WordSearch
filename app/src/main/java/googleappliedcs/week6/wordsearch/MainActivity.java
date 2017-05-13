@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private WordGenerator wordGenerator;
     StringBuilder stringBuilder;
     Stack<Integer> chosenIndexes = new Stack<Integer>();
+//    Stack<Tile>
     int score;
 
     @Override
@@ -74,15 +75,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void gameLogic() {
+
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-            public void onItemClick(AdapterView<?> parent, View v,
+            public void onItemClick(AdapterView<?> parent, View selectedTile,
                                     int position, long id) {
+
+                selectedTile.setBackgroundColor(Color.parseColor("#FF9AD082"));
+
                 //when the user select the first character, store that character in a variable "i" (so that you can check whether the user's next move
                 // is a valid selection, and you add the to the string builder
                 if(stringBuilder.length() == 0 ){
                     chosenIndexes.push(position);
-                    stringBuilder.append(((TextView)v).getText().toString());
+                    stringBuilder.append(((TextView)selectedTile).getText().toString());
                     Log.i("@@@@@@@@@@@@@@@@@@@@" , stringBuilder.toString());
                 }
 
@@ -91,16 +96,17 @@ public class MainActivity extends AppCompatActivity {
                 else if((stringBuilder.length() > 0) && (stringBuilder.length() < gridContainer.getWord().length())){
                     if(isAllowed(position)){
                         chosenIndexes.push(position);
-                        stringBuilder.append(((TextView)v).getText().toString());
+                        stringBuilder.append(((TextView)selectedTile).getText().toString());
                         Log.i("@@@@@@@@@@@@@@@@@@@@" , stringBuilder.toString());
                         isCorrect(gridContainer.getWord());
                     }
                     else{
-                        chosenIndexes.clear();
+//                        chosenIndexes.clear();
+                        uncolorTheChosenOnes();
                         chosenIndexes.push(position);
                         stringBuilder.setLength(0);
                         Log.i("@@@@@@@@@@@@@@@@@@@@" , "cleared string");
-                        stringBuilder.append(((TextView)v).getText().toString());
+                        stringBuilder.append(((TextView)selectedTile).getText().toString());
                         Log.i("@@@@@@@@@@@@@@@@@@@@" , stringBuilder.toString());
                     }
                 }
@@ -108,7 +114,20 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void uncolorTheChosenOnes(){
+
+        int lastIndex;
+        View tile;
+
+        while(!chosenIndexes.isEmpty()){
+            lastIndex = chosenIndexes.pop();
+            tile = gridView.getChildAt(lastIndex);
+            tile.setBackgroundColor(Color.TRANSPARENT);
+        }
+    }
+
     private void refreshGrid() {
+
         gridContainer = wordGenerator.generateNewGrid();
         chosenIndexes.clear();
         stringBuilder = new StringBuilder();
